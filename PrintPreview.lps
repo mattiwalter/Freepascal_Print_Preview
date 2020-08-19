@@ -8,8 +8,9 @@
       <Unit0>
         <Filename Value="PrintPreview.lpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos X="11" Y="9"/>
-        <UsageCount Value="37"/>
+        <IsVisibleTab Value="True"/>
+        <CursorPos X="13" Y="8"/>
+        <UsageCount Value="39"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
@@ -19,10 +20,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Preview"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <CursorPos X="42" Y="5"/>
-        <UsageCount Value="37"/>
+        <TopLine Value="83"/>
+        <CursorPos X="27" Y="92"/>
+        <UsageCount Value="39"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -34,9 +35,9 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Print_Preview"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="224"/>
-        <CursorPos X="15" Y="245"/>
-        <UsageCount Value="37"/>
+        <TopLine Value="145"/>
+        <CursorPos X="75" Y="148"/>
+        <UsageCount Value="39"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit2>
@@ -79,122 +80,123 @@
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="615" Column="52" TopLine="587"/>
+        <Caret Line="160" Column="24" TopLine="86"/>
       </Position1>
       <Position2>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="599" Column="20" TopLine="583"/>
+        <Caret Line="401" TopLine="377"/>
       </Position2>
       <Position3>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="110" Column="38" TopLine="591"/>
+        <Caret Line="393" TopLine="377"/>
       </Position3>
       <Position4>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="611" TopLine="610"/>
+        <Caret Line="384" TopLine="377"/>
       </Position4>
       <Position5>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="619" TopLine="610"/>
+        <Caret Line="401" TopLine="377"/>
       </Position5>
       <Position6>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="626" TopLine="610"/>
+        <Caret Line="352" Column="3" TopLine="317"/>
       </Position6>
       <Position7>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="628" TopLine="610"/>
+        <Caret Line="279" Column="23" TopLine="260"/>
       </Position7>
       <Position8>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="629" TopLine="610"/>
+        <Caret Line="343" Column="66" TopLine="325"/>
       </Position8>
       <Position9>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="630" TopLine="610"/>
+        <Caret Line="418" Column="23" TopLine="387"/>
       </Position9>
       <Position10>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="629" TopLine="610"/>
+        <Caret Line="426" Column="23" TopLine="395"/>
       </Position10>
       <Position11>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="628" TopLine="610"/>
+        <Caret Line="579" Column="56" TopLine="548"/>
       </Position11>
       <Position12>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="627" TopLine="610"/>
+        <Caret Line="401" TopLine="383"/>
       </Position12>
       <Position13>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="633" Column="54" TopLine="610"/>
+        <Caret Line="402" TopLine="383"/>
       </Position13>
       <Position14>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="337" Column="6" TopLine="317"/>
+        <Caret Line="401" TopLine="383"/>
       </Position14>
       <Position15>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="298" TopLine="287"/>
+        <Caret Line="394" Column="33" TopLine="383"/>
       </Position15>
       <Position16>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="401" Column="46" TopLine="381"/>
+        <Caret Line="73" Column="29" TopLine="55"/>
       </Position16>
       <Position17>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="400" Column="46" TopLine="380"/>
+        <Caret Line="138" TopLine="131"/>
       </Position17>
       <Position18>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="399" Column="46" TopLine="379"/>
+        <Caret Line="207" Column="35" TopLine="185"/>
       </Position18>
       <Position19>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="398" Column="46" TopLine="378"/>
+        <Caret Line="30" Column="17" TopLine="11"/>
       </Position19>
       <Position20>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="385" Column="52" TopLine="378"/>
+        <Caret Line="299" Column="19" TopLine="274"/>
       </Position20>
       <Position21>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="316" Column="28" TopLine="300"/>
+        <Caret Line="113" Column="38" TopLine="87"/>
       </Position21>
       <Position22>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="396" Column="15" TopLine="376"/>
+        <Caret Line="77" Column="25" TopLine="59"/>
       </Position22>
       <Position23>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="114" Column="17" TopLine="95"/>
+        <Caret Line="256" Column="37" TopLine="251"/>
       </Position23>
       <Position24>
-        <Filename Value="preview.pas"/>
+        <Filename Value="print_preview.pas"/>
+        <Caret Line="197" Column="5" TopLine="187"/>
       </Position24>
       <Position25>
-        <Filename Value="preview.pas"/>
-        <Caret Line="9" Column="12" TopLine="19"/>
+        <Filename Value="print_preview.pas"/>
+        <Caret Line="63" Column="63" TopLine="50"/>
       </Position25>
       <Position26>
-        <Filename Value="preview.pas"/>
-        <Caret Line="92" Column="38" TopLine="77"/>
+        <Filename Value="print_preview.pas"/>
+        <Caret Line="74" Column="29" TopLine="50"/>
       </Position26>
       <Position27>
-        <Filename Value="preview.pas"/>
-        <Caret Line="68" TopLine="6"/>
+        <Filename Value="print_preview.pas"/>
+        <Caret Line="136" TopLine="118"/>
       </Position27>
       <Position28>
-        <Filename Value="preview.pas"/>
-        <Caret Line="62" Column="27" TopLine="44"/>
+        <Filename Value="print_preview.pas"/>
+        <Caret Line="67" Column="30" TopLine="49"/>
       </Position28>
       <Position29>
-        <Filename Value="preview.pas"/>
-        <Caret Line="20" Column="3" TopLine="4"/>
+        <Filename Value="print_preview.pas"/>
+        <Caret Line="138" Column="61" TopLine="121"/>
       </Position29>
       <Position30>
-        <Filename Value="preview.pas"/>
-        <Caret Line="17" Column="7" TopLine="4"/>
+        <Filename Value="print_preview.pas"/>
+        <Caret Line="80" Column="24" TopLine="56"/>
       </Position30>
     </JumpHistory>
     <RunParams>

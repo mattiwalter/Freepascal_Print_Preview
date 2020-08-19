@@ -96,19 +96,24 @@ end;
 
 procedure TPreviewfm.PrintButtonClick(Sender: TObject);
 begin
-  Print_Previewfm:= TPrint_Previewfm.Create(nil);
+  Screen.Cursor:= crHourGlass;
   try
-    (* Method 1:
-          Print_Previewfm.Memo1.Lines.Assign(Memo1.Lines);
+    Print_Previewfm:= TPrint_Previewfm.Create(nil);
+    try
+      (* Method 1:
+            Print_Previewfm.Memo1.Lines.Assign(Memo1.Lines);
 
-       Method 2:
-          Print_Previewfm.MemoFileName:= <yourfilename>.txt';
-    *)
-    Print_Previewfm.Memo1.Lines.Assign(Memo1.Lines);
-    Print_Previewfm.show;
+         Method 2:
+            Print_Previewfm.MemoFileName:= <yourfilename>.txt';
+      *)
+      Print_Previewfm.Memo1.Lines.Assign(Memo1.Lines);
+      Print_Previewfm.show;
+    finally
+      //
+    end;
   finally
-    //
-  end;
+    Screen.Cursor:= crDefault;
+  End;
 end;
 
 end.

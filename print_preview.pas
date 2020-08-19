@@ -15,15 +15,20 @@ type
 
   TPrint_Previewfm = class(TForm)
     Bottomlbl1: TLabel;
+    Combobox2: Tcombobox;
     GroupBox3: TGroupBox;
-    HeaderImage: TImage;
+    Groupbox4: Tgroupbox;
+    Headerimage: Timage;
+    Label8: Tlabel;
+    Label7: Tlabel;
     LabeledEdit1: TLabeledEdit;
     LabeledEdit2: TLabeledEdit;
-    Memo1: TMemo;
-    PageImg: TImage;
-    Panel2: TPanel;
+    Memo1: Tmemo;
+    Pageimg: Timage;
     PrintDialog1: TPrintDialog;
     PrinterSetupDialog: TPrinterSetupDialog;
+    Progressbar1: Tprogressbar;
+    Scrollbox1: Tscrollbox;
     ShowPrintBordercb: TCheckBox;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
@@ -59,14 +64,14 @@ type
     Toplbl: TLabel;
     Toplbl1: TLabel;
 
+    Procedure Combobox1select(Sender: Tobject);
+    Procedure Combobox2select(Sender: Tobject);
     procedure LabeledEdit1KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure LabeledEdit2KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure PrintAllcbClick(Sender: TObject);
     procedure PrinterSetupClick(Sender: TObject);
     procedure CheckBox_FooterChange(Sender: TObject);
     procedure CheckBox_headerChange(Sender: TObject);
-    procedure ComboBox1Change(Sender: TObject);
-    procedure ComboBox1Click(Sender: TObject);
     procedure ExitbtnClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -109,6 +114,7 @@ type
     Function BuildPage(PageNum: Integer): INteger;
     procedure PrintHeader(ToPrinter: Boolean);
     procedure PrintFooter(ToPrinter: Boolean; PgNum: Integer);
+    Procedure ProgBar1(i: Integer);
 
   public
     MemoFileName: String;
@@ -128,7 +134,8 @@ implementation
 
 {$R *.lfm}
 
-procedure TPrint_Previewfm.ComboBox1Click(Sender: TObject);
+
+Procedure Tprint_previewfm.Combobox1select(Sender: Tobject);
 begin
   Printer.SetPrinter(ComboBox1.Items[ComboBox1.ItemIndex]);
   ComboBox1.Hint:= ComboBox1.Items[ComboBox1.ItemIndex];
@@ -136,10 +143,10 @@ begin
   CreatePages;
 end;
 
-procedure TPrint_Previewfm.ComboBox1Change(Sender: TObject);
-begin
-  ComboBox1Click(nil);
-end;
+Procedure Tprint_previewfm.Combobox2select(Sender: Tobject);
+Begin
+  CreatePages;
+End;
 
 procedure TPrint_Previewfm.CheckBox_FooterChange(Sender: TObject);
 begin
@@ -248,7 +255,7 @@ begin
   ScrollBarTopChange(nil);
   ScrollBarRightChange(nil);
   ScrollBarBottomChange(nil);
-
+  ProgBar1(0);
   BM := TBitmap.Create;
 
   if (Printer <> nil) and (Printer.Printers.Count > 0) then
@@ -265,8 +272,9 @@ begin
   end;
   PageImg.Left:= 0;
   PageImg.Top:= 0;
-  InitRun:= false;
   GetPaperData;
+  Screen.Cursor:= crDefault;
+  InitRun:= false;
 end;
 
 procedure TPrint_Previewfm.FormShow(Sender: TObject);
@@ -286,12 +294,19 @@ begin
   CreatePages;
 end;
 
+Procedure TPrint_Previewfm.ProgBar1(i: Integer);
+begin
+  Progressbar1.Position:= i;
+  Label8.Caption:= IntToStr(i);
+end;
+
 procedure TPrint_Previewfm.PrintButtonClick(Sender: TObject);
 var
   n, Pg,
   MaxLine,
-  Ti, Tb, i  : Integer;
-  S          : String;
+  Ti, Tb, i : Integer;
+  S         : String;
+  ProgStep  : Single;
 begin
   PrLeft_Margin:= Round((ScrollBarLeft.Position / mmScale) * Printer.XDPI);     //Twips
   PrTop_Margin:= Round((ScrollBarTop.Position / mmScale) * Printer.YDPI);
@@ -303,13 +318,13 @@ begin
 
   If PrintAllcb.Checked then
   begin
-    Pg:= 0;
+    Pg:= 1;
     n:= 0;
     MaxLine:= Memo1.Lines.Count;                                                //last line number
   end
   else
   begin
-    Pg:= StrToInt(LabeledEdit1.Text) - 1;
+    Pg:= StrToInt(LabeledEdit1.Text);
     n:= PageStartLine[StrToInt(LabeledEdit1.Text) - 1];
     If TabControl1.Tabs.Count < 2
       then MaxLine:= Memo1.Lines.Count
@@ -321,6 +336,12 @@ begin
       end;
   end;
   Screen.Cursor:= crHourglass;
+  try
+    ProgStep:= 100.0 / TabControl1.Tabs.Count;
+  except
+    //
+  end;
+  ProgBar1(0);   //%
   Printer.BeginDoc;
   try
     Printer.Canvas.Font.Name:= Memo1.Font.Name;
@@ -338,7 +359,7 @@ begin
 
       While (YPos - Printer.Canvas.Font.Height) < Bot do
       begin
-        If n >= Memo1.Lines.Count then Exit;
+        If n >= Memo1.Lines.Count then Break;
         S:= Memo1.Lines[n];
         Tb:= Printer.Canvas.TextWidth(S);
 
@@ -380,12 +401,14 @@ begin
       begin
         printer.NewPage;
         Inc(Pg);
+        ProgBar1(Round(Pg * ProgStep));
       end;
     end;
   finally
     Printer.EndDoc;
-    Screen.Cursor:= crDefault;
   end;
+  Screen.Cursor:= crDefault;
+  ProgBar1(0);
 end;
 
 procedure TPrint_Previewfm.GetPaperData;
@@ -623,16 +646,59 @@ begin
 
     BM.canvas.Font.Color:= clblack;
 
-    PageImg.Height:= Panel2.ClientHeight;
-    PageImg.Width:= Round(PageImg.Height * (Bm.Width / BM.Height));
+    Case ComboBox2.ItemIndex of
+       0: begin  //25%
+            PageImg.Height:= BM.Height div 4;
+            PageImg.Width:= BM.Width div 4;
 
-    PageImg.Picture.Bitmap.Width:= PageImg.Width;
-    PageImg.Picture.Bitmap.Height:= PageImg.Height;
+            PageImg.Picture.Bitmap.Width:= PageImg.Width;
+            PageImg.Picture.Bitmap.Height:= PageImg.Height;
+          end;
 
-    If PageImg.Width > Panel2.ClientWidth
-      then Panel2.ClientWidth:= PageImg.Width;
-    If PageImg.Height > Panel2.ClientHeight
-      then Panel2.ClientHeight:= PageImg.Height;
+       1: begin  //50%
+            PageImg.Height:= BM.Height div 2;
+            PageImg.Width:= BM.Width div 2;
+
+            PageImg.Picture.Bitmap.Width:= PageImg.Width;
+            PageImg.Picture.Bitmap.Height:= PageImg.Height;
+            (*
+            If PageImg.Width > ScrollBox1.ClientWidth
+              then ScrollBox1.ClientWidth:= PageImg.Width;
+            If PageImg.Height > ScrollBox1.ClientHeight
+              then ScrollBox1.ClientHeight:= PageImg.Height;
+            *)
+          end;
+
+       2: begin  //75%
+            PageImg.Height:= (BM.Height div 4) * 3;
+            PageImg.Width:= (BM.Width div 4) * 3;
+
+            PageImg.Picture.Bitmap.Width:= PageImg.Width;
+            PageImg.Picture.Bitmap.Height:= PageImg.Height;
+          end;
+
+       3: begin  //Original
+             PageImg.Height:= BM.Height;
+            PageImg.Width:= BM.Width;
+
+            PageImg.Picture.Bitmap.Width:= PageImg.Width;
+            PageImg.Picture.Bitmap.Height:= PageImg.Height;
+          end;
+
+       else
+          begin  //Einpassen
+            PageImg.Height:= ScrollBox1.ClientHeight;
+            PageImg.Width:= Round(PageImg.Height * (Bm.Width / BM.Height));
+
+            PageImg.Picture.Bitmap.Width:= PageImg.Width;
+            PageImg.Picture.Bitmap.Height:= PageImg.Height;
+
+            If PageImg.Width > ScrollBox1.ClientWidth
+              then ScrollBox1.ClientWidth:= PageImg.Width;
+            If PageImg.Height > ScrollBox1.ClientHeight
+              then ScrollBox1.ClientHeight:= PageImg.Height;
+          end;
+    end;
 
     DispScaleX:= PageImg.Width/ BM.Width;
     DispScaleY:= PageImg.Height / BM.Height;
