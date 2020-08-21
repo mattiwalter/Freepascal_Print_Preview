@@ -19,7 +19,6 @@ type
     CutButton: TToolButton;
     FindDialog1: TFindDialog;
     Memo1: TMemo;
-    Memo2: TMemo;
     PasteButton: TToolButton;
     PrintButton: TToolButton;
     SaveButton: TToolButton;
@@ -50,6 +49,9 @@ type
 var
   Previewfm: TPreviewfm;
 
+const
+  TestFileName = 'Testdocument.txt';
+
 implementation
 
 {$R *.lfm}
@@ -69,7 +71,9 @@ end;
 
 procedure TPreviewfm.FormCreate(Sender: TObject);
 begin
-  Memo1.Lines.LoadFromFile('testdocument.txt');
+  Memo1.Lines.LoadFromFile(TestFileName);
+  StatusBar.Panels[2].Text:= TestFileName;
+  ShowCursorPos;
 end;
 
 procedure TPreviewfm.FormActivate(Sender: TObject);
@@ -106,8 +110,8 @@ begin
          Method 2:
             Print_Previewfm.MemoFileName:= <yourfilename>.txt';
       *)
-      Print_Previewfm.Memo1.Lines.Assign(Memo1.Lines);
-      Print_Previewfm.show;
+      Print_Previewfm.MemoFileName:= TestFileName;
+      Print_Previewfm.ShowModal;
     finally
       //
     end;

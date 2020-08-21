@@ -71,7 +71,7 @@ object Print_Previewfm: TPrint_Previewfm
     object CheckBox_header: TCheckBox
       Left = 16
       Height = 19
-      Top = 480
+      Top = 464
       Width = 87
       Caption = 'ShowHeader'
       Checked = True
@@ -82,7 +82,7 @@ object Print_Previewfm: TPrint_Previewfm
     object CheckBox_Footer: TCheckBox
       Left = 16
       Height = 19
-      Top = 501
+      Top = 485
       Width = 86
       Caption = 'Show Footer'
       Checked = True
@@ -203,17 +203,17 @@ object Print_Previewfm: TPrint_Previewfm
     end
     object GroupBox1: TGroupBox
       Left = 16
-      Height = 78
+      Height = 64
       Top = 120
       Width = 127
       Caption = 'Orientation'
-      ClientHeight = 58
+      ClientHeight = 44
       ClientWidth = 123
       TabOrder = 5
       object RadioButton1: TRadioButton
         Left = 8
         Height = 19
-        Top = 8
+        Top = 0
         Width = 59
         Caption = 'Portrait'
         Checked = True
@@ -222,9 +222,9 @@ object Print_Previewfm: TPrint_Previewfm
         TabStop = True
       end
       object RadioButton2: TRadioButton
-        Left = 8
+        Left = 9
         Height = 19
-        Top = 32
+        Top = 20
         Width = 76
         Caption = 'Landscape'
         OnChange = RadioButton2Change
@@ -234,7 +234,7 @@ object Print_Previewfm: TPrint_Previewfm
     object GroupBox2: TGroupBox
       Left = 15
       Height = 200
-      Top = 272
+      Top = 256
       Width = 183
       Caption = 'Page Margin'
       ClientHeight = 180
@@ -356,7 +356,7 @@ object Print_Previewfm: TPrint_Previewfm
     object ShowPrintBordercb: TCheckBox
       Left = 16
       Height = 19
-      Top = 522
+      Top = 506
       Width = 115
       Caption = 'Show Print Border'
       Checked = True
@@ -367,7 +367,7 @@ object Print_Previewfm: TPrint_Previewfm
     object GroupBox3: TGroupBox
       Left = 15
       Height = 96
-      Top = 560
+      Top = 544
       Width = 103
       Caption = 'Pages to print'
       ClientHeight = 76
@@ -405,15 +405,17 @@ object Print_Previewfm: TPrint_Previewfm
         Top = 48
         Width = 60
         Caption = 'Print all'
+        Checked = True
         OnChange = ShowPrintBordercbChange
         OnClick = PrintAllcbClick
+        State = cbChecked
         TabOrder = 2
       end
     end
     object GroupBox4: TGroupBox
       Left = 16
       Height = 48
-      Top = 208
+      Top = 192
       Width = 127
       Caption = 'Zoom'
       ClientHeight = 28
@@ -425,6 +427,7 @@ object Print_Previewfm: TPrint_Previewfm
         Top = 0
         Width = 104
         AutoDropDown = True
+        Color = clWhite
         ItemHeight = 15
         ItemIndex = 4
         Items.Strings = (
@@ -440,28 +443,31 @@ object Print_Previewfm: TPrint_Previewfm
         Text = 'Einpassen'
       end
     end
-    object ProgressBar1: TProgressBar
-      Left = 15
-      Height = 15
-      Top = 680
-      Width = 161
+    object GroupBox5: TGroupBox
+      Left = 14
+      Height = 40
+      Top = 648
+      Width = 184
+      Caption = 'Printing..'
+      ClientHeight = 20
+      ClientWidth = 180
       TabOrder = 10
-    end
-    object Label8: TLabel
-      Left = 184
-      Height = 15
-      Top = 680
-      Width = 12
-      Caption = '99'
-      ParentColor = False
-    end
-    object Label7: TLabel
-      Left = 16
-      Height = 15
-      Top = 664
-      Width = 57
-      Caption = 'Fortschritt:'
-      ParentColor = False
+      Visible = False
+      object ProgressBar1: TProgressBar
+        Left = 4
+        Height = 15
+        Top = 0
+        Width = 148
+        TabOrder = 0
+      end
+      object Label8: TLabel
+        Left = 157
+        Height = 15
+        Top = 0
+        Width = 12
+        Caption = '00'
+        ParentColor = False
+      end
     end
   end
   object StandardToolBar: TToolBar
@@ -1350,6 +1356,8 @@ object Print_Previewfm: TPrint_Previewfm
         95938B8C8B858585898B898B8B8B8B8C8B8B8C8B9092908F938F8A8E8A8C928C
         8B8E8B8B8C8B8C8C8C8F918F8C908C000000
       }
+      StretchOutEnabled = False
+      StretchInEnabled = False
       Visible = False
     end
   end
