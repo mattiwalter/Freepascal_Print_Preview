@@ -450,6 +450,9 @@ end;
 procedure TPrint_Previewfm.CreatePages;
 var
   Factor, n, OldTabIdx: Integer;
+
+const
+  ScrBarWidth = 25;
 begin
   if InCreatePages then Exit;
 
@@ -482,8 +485,10 @@ begin
         n:= BuildPage(Pg);
 
         if papermmX <= papermmY                                                 //vertical
-          then Factor:= Trunc(ScrollBox2.Width * (papermmY / papermmX))
-          else Factor:= Trunc(ScrollBox2.Width * (papermmX / papermmY));
+          then Factor:= Trunc((Splitter1.Left - ScrBarWidth) *
+                              (papermmY / papermmX))
+          else Factor:= Trunc((Splitter1.Left - ScrBarWidth) *
+                              (papermmX / papermmY));
 
         SetLength(PreviewGrBox, Pg + 1);
         PreviewGrBox[Pg]:= TGroupBox.Create(nil);
@@ -499,10 +504,8 @@ begin
 
         PreviewGrBox[Pg].Caption:= IntToStr(Pg + 1);
         PreviewGrBox[Pg].ClientHeight:= Factor;
-        PreviewGrBox[Pg].ClientWidth:= ScrollBox2.ClientWidth;
-        PreviewGrBox[Pg].Top:= (Pg * PreviewGrBox[Pg].Height) +
-                                ScrollBox2.VertScrollBar.Size -
-                                ScrollBox2.VertScrollBar.Position;
+        PreviewGrBox[Pg].ClientWidth:= Splitter1.Left - ScrBarWidth;
+        PreviewGrBox[Pg].Top:= Pg * PreviewGrBox[Pg].Height;
         PreviewGrBox[Pg].Color:= clBtnFace;
         PreviewGrBox[Pg].Font.Size:= 10;
         PreviewGrBox[Pg].Font.Style:= [];

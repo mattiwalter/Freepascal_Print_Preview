@@ -1369,8 +1369,11 @@ object Print_Previewfm: TPrint_Previewfm
     Top = 26
     Width = 144
     HorzScrollBar.Page = 1
+    HorzScrollBar.Visible = False
     VertScrollBar.Page = 1
     Align = alLeft
+    Constraints.MinHeight = 100
+    Constraints.MinWidth = 140
     TabOrder = 4
   end
   object Splitter1: TSplitter
