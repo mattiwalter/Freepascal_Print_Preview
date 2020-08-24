@@ -382,6 +382,7 @@ object Print_Previewfm: TPrint_Previewfm
         EditLabel.Width = 34
         EditLabel.Caption = 'From:'
         EditLabel.ParentColor = False
+        Enabled = False
         TabOrder = 0
         Text = '1'
         OnKeyUp = LabeledEdit1KeyUp
@@ -395,6 +396,7 @@ object Print_Previewfm: TPrint_Previewfm
         EditLabel.Width = 34
         EditLabel.Caption = 'To:'
         EditLabel.ParentColor = False
+        Enabled = False
         TabOrder = 1
         Text = '999'
         OnKeyUp = LabeledEdit2KeyUp
@@ -527,15 +529,15 @@ object Print_Previewfm: TPrint_Previewfm
     TabOrder = 2
   end
   object ScrollBox1: TScrollBox
-    Left = 0
+    Left = 149
     Height = 783
     Top = 26
-    Width = 637
+    Width = 488
     HorzScrollBar.Page = 283
     VertScrollBar.Page = 324
     Align = alClient
     ClientHeight = 779
-    ClientWidth = 633
+    ClientWidth = 484
     TabOrder = 3
     object PageImg: TImage
       Left = 79
@@ -1360,6 +1362,23 @@ object Print_Previewfm: TPrint_Previewfm
       StretchInEnabled = False
       Visible = False
     end
+  end
+  object ScrollBox2: TScrollBox
+    Left = 0
+    Height = 783
+    Top = 26
+    Width = 144
+    HorzScrollBar.Page = 1
+    VertScrollBar.Page = 1
+    Align = alLeft
+    TabOrder = 4
+  end
+  object Splitter1: TSplitter
+    Left = 144
+    Height = 783
+    Top = 26
+    Width = 5
+    OnMoved = Splitter1Moved
   end
   object ToolbarImages: TImageList
     Left = 440

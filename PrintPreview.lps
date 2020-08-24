@@ -9,7 +9,7 @@
         <Filename Value="PrintPreview.lpr"/>
         <IsPartOfProject Value="True"/>
         <CursorPos X="50" Y="20"/>
-        <UsageCount Value="58"/>
+        <UsageCount Value="93"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
@@ -20,8 +20,9 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Preview"/>
         <EditorIndex Value="1"/>
-        <CursorPos X="52" Y="67"/>
-        <UsageCount Value="58"/>
+        <TopLine Value="16"/>
+        <CursorPos X="49" Y="38"/>
+        <UsageCount Value="93"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -34,9 +35,9 @@
         <UnitName Value="Print_Preview"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="528"/>
-        <CursorPos X="33" Y="551"/>
-        <UsageCount Value="58"/>
+        <TopLine Value="449"/>
+        <CursorPos X="22" Y="465"/>
+        <UsageCount Value="93"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit2>
@@ -44,14 +45,14 @@
         <Filename Value="C:\lazarus\packager\registration\fcllaz.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="3" Y="11"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="4"/>
       </Unit3>
       <Unit4>
         <Filename Value="C:\lazarus\lcl\include\customedit.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="90"/>
         <CursorPos Y="108"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="4"/>
       </Unit4>
       <Unit5>
         <Filename Value="C:\lazarus\lcl\customtimer.pas"/>
@@ -59,21 +60,21 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="158"/>
         <CursorPos X="15" Y="163"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="4"/>
       </Unit5>
       <Unit6>
         <Filename Value="C:\lazarus\Download\jvcllaz\run\JvPascalInterpreter\JvInterpreter.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1281"/>
         <CursorPos X="42" Y="1284"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="4"/>
       </Unit6>
       <Unit7>
         <Filename Value="C:\lazarus\lcl\include\font.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1312"/>
         <CursorPos Y="1332"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="6"/>
       </Unit7>
       <Unit8>
         <Filename Value="C:\lazarus\lcl\printers.pas"/>
@@ -81,21 +82,21 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="278"/>
         <CursorPos X="15" Y="297"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="6"/>
       </Unit8>
       <Unit9>
         <Filename Value="C:\lazarus\lcl\include\customcheckbox.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="62"/>
         <CursorPos Y="92"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="6"/>
       </Unit9>
       <Unit10>
         <Filename Value="C:\lazarus\lcl\include\wincontrol.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="6487"/>
         <CursorPos Y="6510"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="6"/>
       </Unit10>
       <Unit11>
         <Filename Value="C:\lazarus\lcl\interfaces\win32\win32wsstdctrls.pp"/>
@@ -103,21 +104,21 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1925"/>
         <CursorPos Y="1948"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="6"/>
       </Unit11>
       <Unit12>
         <Filename Value="C:\lazarus\lcl\include\winapi.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="823"/>
         <CursorPos Y="846"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="6"/>
       </Unit12>
       <Unit13>
         <Filename Value="C:\lazarus\lcl\interfaces\win32\win32winapi.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="3035"/>
         <CursorPos Y="3058"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="6"/>
       </Unit13>
       <Unit14>
         <Filename Value="C:\lazarus\lcl\interfacebase.pp"/>
@@ -125,7 +126,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="233"/>
         <CursorPos X="15" Y="120"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="6"/>
       </Unit14>
       <Unit15>
         <Filename Value="C:\lazarus\lcl\graphics.pp"/>
@@ -133,126 +134,130 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="89"/>
         <CursorPos Y="89"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="6"/>
       </Unit15>
     </Units>
-    <JumpHistory Count="29" HistoryIndex="28">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="310" Column="14" TopLine="303"/>
+        <Caret Line="531" TopLine="494"/>
       </Position1>
       <Position2>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="318" Column="7" TopLine="303"/>
+        <Caret Line="433" Column="3" TopLine="412"/>
       </Position2>
       <Position3>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="310" Column="67" TopLine="290"/>
+        <Caret Line="17" Column="68"/>
       </Position3>
       <Position4>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="311" Column="67" TopLine="291"/>
+        <Caret Line="717" Column="44" TopLine="686"/>
       </Position4>
       <Position5>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="310" Column="67" TopLine="290"/>
+        <Caret Line="716" Column="26" TopLine="686"/>
       </Position5>
       <Position6>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="330" Column="17" TopLine="296"/>
+        <Caret Line="171" Column="7" TopLine="139"/>
       </Position6>
       <Position7>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="113" Column="18" TopLine="92"/>
+        <Caret Line="24" Column="17" TopLine="2"/>
       </Position7>
       <Position8>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="505" TopLine="483"/>
+        <Caret Line="171" Column="15" TopLine="135"/>
       </Position8>
       <Position9>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="113" Column="20" TopLine="113"/>
+        <Caret Line="184" Column="30" TopLine="148"/>
       </Position9>
       <Position10>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="504" Column="81" TopLine="482"/>
+        <Caret Line="190" Column="28" TopLine="154"/>
       </Position10>
       <Position11>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="647" Column="46" TopLine="598"/>
+        <Caret Line="192" Column="28" TopLine="156"/>
       </Position11>
       <Position12>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="313" Column="13" TopLine="302"/>
+        <Caret Line="194" Column="48" TopLine="158"/>
       </Position12>
       <Position13>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="102" TopLine="81"/>
+        <Caret Line="213" Column="30" TopLine="177"/>
       </Position13>
       <Position14>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="329" TopLine="310"/>
+        <Caret Line="222" Column="48" TopLine="186"/>
       </Position14>
       <Position15>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="323" Column="26" TopLine="298"/>
+        <Caret Line="525" Column="19" TopLine="490"/>
       </Position15>
       <Position16>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="326" Column="26" TopLine="301"/>
+        <Caret Line="693" Column="28" TopLine="671"/>
       </Position16>
       <Position17>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="325" Column="26" TopLine="300"/>
+        <Caret Line="116" Column="32" TopLine="95"/>
       </Position17>
       <Position18>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="324" Column="26" TopLine="299"/>
+        <Caret Line="431" Column="45" TopLine="395"/>
       </Position18>
       <Position19>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="323" Column="26" TopLine="298"/>
+        <Caret Line="495" Column="45" TopLine="460"/>
       </Position19>
       <Position20>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="322" Column="26" TopLine="297"/>
+        <Caret Line="508" Column="54" TopLine="473"/>
       </Position20>
       <Position21>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="323" Column="26" TopLine="298"/>
+        <Caret Line="116" Column="32" TopLine="95"/>
       </Position21>
       <Position22>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="322" Column="26" TopLine="297"/>
+        <Caret Line="448" Column="35" TopLine="416"/>
       </Position22>
       <Position23>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="324" Column="14" TopLine="310"/>
+        <Caret Line="440" Column="32" TopLine="416"/>
       </Position23>
       <Position24>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="305" Column="49" TopLine="298"/>
+        <Caret Line="509" Column="49" TopLine="490"/>
       </Position24>
       <Position25>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="124" Column="24" TopLine="102"/>
+        <Caret Line="508" TopLine="490"/>
       </Position25>
       <Position26>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="125" Column="24" TopLine="102"/>
+        <Caret Line="495" Column="38" TopLine="490"/>
       </Position26>
       <Position27>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="388" Column="34" TopLine="377"/>
+        <Caret Line="116" Column="21" TopLine="95"/>
       </Position27>
       <Position28>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="110" Column="26" TopLine="89"/>
+        <Caret Line="436" Column="44" TopLine="430"/>
       </Position28>
       <Position29>
         <Filename Value="print_preview.pas"/>
-        <Caret Line="388" Column="39" TopLine="352"/>
+        <Caret Line="723" Column="10" TopLine="684"/>
       </Position29>
+      <Position30>
+        <Filename Value="print_preview.pas"/>
+        <Caret Line="111" Column="18" TopLine="90"/>
+      </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

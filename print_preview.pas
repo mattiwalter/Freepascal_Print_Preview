@@ -29,6 +29,7 @@ type
     PrinterSetupDialog: TPrinterSetupDialog;
     Progressbar1: Tprogressbar;
     Scrollbox1: Tscrollbox;
+    Scrollbox2: Tscrollbox;
     ShowPrintBordercb: TCheckBox;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
@@ -55,6 +56,7 @@ type
     ScrollBarRight: TScrollBar;
     ScrollBarTop: TScrollBar;
     PrintAllcb: TCheckBox;
+    Splitter1: Tsplitter;
     StandardToolBar: TToolBar;
     TabControl1: TTabControl;
     Timer1: TTimer;
@@ -86,6 +88,7 @@ type
     procedure ScrollBarTopChange(Sender: TObject);
     procedure ShowPrintBordercb1Click(Sender: TObject);
     procedure ShowPrintBordercbChange(Sender: TObject);
+    Procedure Splitter1moved(Sender: Tobject);
     procedure TabControl1Change(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
 
@@ -100,14 +103,18 @@ type
     BMRightMargin,
     BMBottomMargin,
     YPos,
-    Bot             : Int64;
+    Bot, Pg         : Int64;
     PageStartLine   : Array of Integer;                                         //Page 1 is in PageStartLine[0]
+    PreviewGrBox    : Array of TGroupBox;
+    img             : Array of TImage;
 
     procedure CreatePages;
     procedure GetPaperData;
     Function BuildPage(PageNum: Integer): INteger;
     procedure PrintHeader;
     procedure PrintFooter(PgNum: Integer);
+    procedure PreviewGrBoxClick(Sender: TObject);
+    procedure HighlightPrvBox(Idx: Integer);
 
   public
     MemoFileName: String;
@@ -161,6 +168,9 @@ end;
 
 procedure TPrint_Previewfm.PrintAllcbClick(Sender: TObject);
 begin
+  LabeledEdit1.Enabled:= not PrintAllcb.Checked;
+  LabeledEdit2.Enabled:= not PrintAllcb.Checked;
+
   If PrintAllcb.Checked
     then LabelEdEdit2.Text:= IntToStr(TabControl1.Tabs.Count);
 end;
@@ -292,14 +302,12 @@ end;
 procedure TPrint_Previewfm.PrintButtonClick(Sender: TObject);
 var
   n,
-  OldTab,
-  Tb, i   : Integer;
-  S       : String;
-  ProgStep: Single;
-  OldBorer: Boolean;
+  OldTab   : Integer;
+  ProgStep : Single;
+  OldBorder: Boolean;
 begin
   OldTab:= TabControl1.TabIndex;
-  OldBorer:= ShowPrintBordercb.Checked;
+  OldBorder:= ShowPrintBordercb.Checked;
   //Print job MUST have a title, otherwise will not print
   Printer.Title:= Application.Title;
   try
@@ -326,7 +334,7 @@ begin
   finally
     Printer.EndDoc;
     GroupBox5.Visible:= false;
-    ShowPrintBordercb.Checked:= OldBorer;
+    ShowPrintBordercb.Checked:= OldBorder;
     TabControl1.TabIndex:= OldTab;
     BuildPage(TabControl1.TabIndex);
   end;
@@ -359,7 +367,7 @@ end;
 
 procedure TPrint_Previewfm.PrintHeader;
 var
-  z1,z2, y, n: Integer;
+  y, n: Integer;
 begin
   Y:= BMTopMargin;
 
@@ -412,60 +420,122 @@ begin
   Bot:= y + Round(0.5 * Bm.Canvas.Font.Height);                                 //height is negative
 end;
 
+procedure TPrint_Previewfm.HighlightPrvBox(Idx: Integer);
+var
+  n: Integer;
+begin
+  for n:= 0 to high(PreviewGrBox) do PreviewGrBox[n].Color:= clBtnFace;         //clear highlight color
+  PreviewGrBox[Idx].Color:= clMoneygreen;
+end;
+
+procedure TPrint_Previewfm.PreviewGrBoxClick(Sender: TObject);
+var
+  p: Integer;
+begin
+  if (Sender is TImage) then
+  begin
+    p:= TImage(Sender).Tag;
+    BuildPage(p);
+    TabControl1.TabIndex:= p;
+    HighlightPrvBox(p);
+  End;
+end;
+
+procedure TPrint_Previewfm.TabControl1Change(Sender: TObject);
+begin
+  BuildPage(TabControl1.TabIndex);
+  HighlightPrvBox(TabControl1.TabIndex);
+end;
+
 procedure TPrint_Previewfm.CreatePages;
 var
-  n, Pg,
-  OldTabIdx: Integer;
+  Factor, n, OldTabIdx: Integer;
 begin
   if InCreatePages then Exit;
 
-  BMLeftMargin:= Round((ScrollBarLeft.Position / mmScale) *
-                       Screen.PixelsPerInch);                                   //Pixel
-  BMTopMargin:= Round((ScrollBarTop.Position / mmScale) *
-                      Screen.PixelsPerInch);
-  BMRightMargin:= Round((ScrollBarRight.Position / mmScale) *
-                        Screen.PixelsPerInch);
-  BMBottomMargin:= Round((ScrollBarBottom.Position / mmScale) *
-                         Screen.PixelsPerInch);
-
-  if TabControl1.Tabs.Count > 0 then OldTabIdx:= TabControl1.TabIndex;          //Remember current tab
-
-  TabControl1.Tabs.Clear;
-  Pg:= 0;
-  Setlength(PageStartLine, 1);
-  n:= 0;
-  PageStartLine[Pg]:= n;
   try
-    BM.Width:= Round((papermmX / mmscale) * Screen.PixelsPerInch);              //Pixel
-    BM.Height:= Round((papermmY / mmScale) * Screen.PixelsPerInch);
+    BMLeftMargin:= Round((ScrollBarLeft.Position / mmScale) *
+                         Screen.PixelsPerInch);                                 //Pixel
+    BMTopMargin:= Round((ScrollBarTop.Position / mmScale) *
+                        Screen.PixelsPerInch);
+    BMRightMargin:= Round((ScrollBarRight.Position / mmScale) *
+                          Screen.PixelsPerInch);
+    BMBottomMargin:= Round((ScrollBarBottom.Position / mmScale) *
+                           Screen.PixelsPerInch);
 
-    While n < Memo1.Lines.Count do                                              //While not bottom of page...
-    begin
-      n:= BuildPage(Pg);
-      TabControl1.Tabs.Add('Page ' + IntToStr(Pg + 1));
-      Inc(Pg);
-      Setlength(PageStartLine, Pg + 1);
-      PageStartLine[length(PageStartLine) - 1]:= n;
-    end;                                                                        //remember first line number of page
-  finally
-    if TabControl1.Tabs.Count > 0 then
-    begin
-      TabControl1.TabIndex:= OldTabIdx;
-      BuildPage(TabControl1.TabIndex);                                          //display current page
+    if TabControl1.Tabs.Count > 0 then OldTabIdx:= TabControl1.TabIndex;        //Remember current tab
+
+    TabControl1.Tabs.Clear;
+    for n := Scrollbox2.ControlCount - 1 downto 0
+      do ScrollBox2.Controls[n].Free;
+
+    Pg:= 0;
+    Setlength(PageStartLine, 1);
+    n:= 0;
+    PageStartLine[Pg]:= n;
+    try
+      BM.Width:= Round((papermmX / mmscale) * Screen.PixelsPerInch);            //Pixel
+      BM.Height:= Round((papermmY / mmScale) * Screen.PixelsPerInch);
+
+      While n < Memo1.Lines.Count do                                            //While not bottom of page...
+      begin
+        n:= BuildPage(Pg);
+
+        if papermmX <= papermmY                                                 //vertical
+          then Factor:= Trunc(ScrollBox2.Width * (papermmY / papermmX))
+          else Factor:= Trunc(ScrollBox2.Width * (papermmX / papermmY));
+
+        SetLength(PreviewGrBox, Pg + 1);
+        PreviewGrBox[Pg]:= TGroupBox.Create(nil);
+        PreviewGrBox[Pg].Parent:= ScrollBox2;
+        PreviewGrBox[Pg].ParentColor:= false;
+
+        SetLength(Img, Pg + 1);
+        Img[Pg]:= TImage.Create(nil);
+        Img[Pg].Parent:= PreviewGrBox[Pg];
+        Img[Pg].Align:= alClient;
+        Img[Pg].OnClick:= @PreviewGrBoxClick;
+        Img[Pg].Tag:= Pg;
+
+        PreviewGrBox[Pg].Caption:= IntToStr(Pg + 1);
+        PreviewGrBox[Pg].ClientHeight:= Factor;
+        PreviewGrBox[Pg].ClientWidth:= ScrollBox2.ClientWidth;
+        PreviewGrBox[Pg].Top:= (Pg * PreviewGrBox[Pg].Height) +
+                                ScrollBox2.VertScrollBar.Size -
+                                ScrollBox2.VertScrollBar.Position;
+        PreviewGrBox[Pg].Color:= clBtnFace;
+        PreviewGrBox[Pg].Font.Size:= 10;
+        PreviewGrBox[Pg].Font.Style:= [];
+        PreviewGrBox[Pg].Tag:= Pg;
+
+        Img[Pg].Canvas.StretchDraw(Rect(0, 0, Img[Pg].ClientWidth,
+                                        Img[Pg].ClientHeight),
+                                   PageImg.Picture.Bitmap);
+        Inc(Pg);
+        TabControl1.Tabs.Add('Page ' + IntToStr(Pg));
+
+        Setlength(PageStartLine, Pg + 1);
+        PageStartLine[length(PageStartLine) - 1]:= n;
+      end;                                                                      //remember first line number of page
+    finally
+      if TabControl1.Tabs.Count > 0 then
+      begin
+        TabControl1.TabIndex:= OldTabIdx;
+        TabControl1change(nil);
+      end;
+      LabeledEdit1.Text:= '1';                                                  //print from this page
+      LabeledEdit2.Text:= IntToStr(Pg);                                         //print to this page
+
+      InCreatePages:= false;
     end;
-    LabeledEdit1.Text:= '1';
-    LabeledEdit2.Text:= IntToStr(Pg);                                           //print from this page
-                                                                                //print to this page
-    InCreatePages:= false;
-  end;
-  PrintButton.Enabled:= (Memo1.Lines.Count > 0);
+  Finally
+    PrintButton.Enabled:= (Memo1.Lines.Count > 0);
+  End;
 end;
 
 Function TPrint_Previewfm.BuildPage(PageNum: Integer): Integer;
 var
-  n,
-  Ti,
-  Tb          : Int64;
+  n, Ti, Tb   : Int64;
   i           : Integer;
   S           : String;
   DispScaleX,
@@ -485,7 +555,7 @@ begin
     Ti:= BM.Width - BMLeftMargin - BMRightMargin;                               //Pixel
 
     Case ComboBox2.ItemIndex of
-       0: begin  //25%
+       0: begin                                                                 //25%
             PageImg.Height:= BM.Height div 4;
             PageImg.Width:= BM.Width div 4;
 
@@ -493,7 +563,7 @@ begin
             PageImg.Picture.Bitmap.Height:= PageImg.Height;
           end;
 
-       1: begin  //50%
+       1: begin                                                                 //50%
             PageImg.Height:= BM.Height div 2;
             PageImg.Width:= BM.Width div 2;
 
@@ -507,7 +577,7 @@ begin
             *)
           end;
 
-       2: begin  //75%
+       2: begin                                                                 //75%
             PageImg.Height:= (BM.Height div 4) * 3;
             PageImg.Width:= (BM.Width div 4) * 3;
 
@@ -515,7 +585,7 @@ begin
             PageImg.Picture.Bitmap.Height:= PageImg.Height;
           end;
 
-       3: begin  //Original
+       3: begin                                                                 //Original
             PageImg.Height:= BM.Height;
             PageImg.Width:= BM.Width;
 
@@ -524,7 +594,7 @@ begin
           end;
 
        else
-          begin  //Einpassen
+          begin                                                                 //Fit
             PageImg.Height:= ScrollBox1.ClientHeight;
             PageImg.Width:= Round(PageImg.Height * (Bm.Width / BM.Height));
 
@@ -642,7 +712,7 @@ end;
 
 procedure TPrint_Previewfm.ShowPrintBordercb1Click(Sender: TObject);
 begin
-
+  If not InitRun then BuildPage(TabControl1.TabIndex);
 end;
 
 procedure TPrint_Previewfm.ShowPrintBordercbChange(Sender: TObject);
@@ -650,10 +720,11 @@ begin
   BuildPage(TabControl1.TabIndex);
 end;
 
-procedure TPrint_Previewfm.TabControl1Change(Sender: TObject);
-begin
-  BuildPage(TabControl1.TabIndex);
-end;
+Procedure Tprint_previewfm.Splitter1moved(Sender: Tobject);
+Begin
+  ScrollBox2.Width:= Splitter1.Left;
+  CreatePages;
+End;
 
 end.
 
