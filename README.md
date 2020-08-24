@@ -10,3 +10,6 @@ Version1.2:
 
 Version1.3:
     - improved printing
+    
+Version1.4:
+    - added thumbnail preview
