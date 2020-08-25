@@ -484,11 +484,7 @@ begin
       begin
         n:= BuildPage(Pg);
 
-        if papermmX <= papermmY                                                 //vertical
-          then Factor:= Trunc((Splitter1.Left - ScrBarWidth) *
-                              (papermmY / papermmX))
-          else Factor:= Trunc((Splitter1.Left - ScrBarWidth) *
-                              (papermmX / papermmY));
+        Factor:= Trunc((Splitter1.Left - ScrBarWidth) * (papermmY / papermmX));
 
         SetLength(PreviewGrBox, Pg + 1);
         PreviewGrBox[Pg]:= TGroupBox.Create(nil);
