@@ -13,3 +13,6 @@ Version1.3:
     
 Version1.4:
     - added thumbnail preview
+    
+Version1.5:
+    - iproved orientation switching
