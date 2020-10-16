@@ -3,7 +3,7 @@ program PrintPreview;
 {$mode objfpc}{$H+}
 
 uses
-  Interfaces,     // this includes the LCL widgetset
+  Interfaces,
   Forms,
 
   Preview;

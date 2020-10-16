@@ -14,11 +14,14 @@
         <DpiAware Value="True"/>
       </XPManifest>
       <Icon Value="0"/>
+      <Resources Count="1">
+        <Resource_0 FileName="1100x1100.bmp" Type="BITMAP" ResourceName="PIC1100X1100"/>
+      </Resources>
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="1"/>
-      <MinorVersionNr Value="5"/>
+      <MinorVersionNr Value="6"/>
       <Language Value="0407"/>
       <StringTable CompanyName="Walter Software" ProductName="Print Preview"/>
     </VersionInfo>
@@ -46,7 +49,7 @@
         <PackageName Value="LCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="3">
+    <Units Count="4">
       <Unit0>
         <Filename Value="PrintPreview.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -67,6 +70,10 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Print_Preview"/>
       </Unit2>
+      <Unit3>
+        <Filename Value="patchimagedpi.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit3>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
