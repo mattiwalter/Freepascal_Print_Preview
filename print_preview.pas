@@ -6,25 +6,29 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, ComCtrls, PrintersDlgs, Printers, Buttons, Math, Types,
-  LCLType;
+  StdCtrls, ComCtrls, PrintersDlgs, Printers, Buttons, Math, Types, LCLType;
 
 type
 
   { TPrint_Previewfm }
 
   TPrint_Previewfm = class(TForm)
+    Bitbtn1: Tbitbtn;
+    Bitbtn2: Tbitbtn;
     Bottomlbl1: TLabel;
     Combobox2: Tcombobox;
     GroupBox3: TGroupBox;
     Groupbox4: Tgroupbox;
     Groupbox5: Tgroupbox;
+    Groupbox6: Tgroupbox;
     Headerimage: Timage;
     Label8: Tlabel;
-    LabeledEdit1: TLabeledEdit;
-    LabeledEdit2: TLabeledEdit;
+    Labelededit1: Tlabelededit;
+    Labelededit2: Tlabelededit;
     Memo1: Tmemo;
     Pageimg: Timage;
+    Printallcb: Tcheckbox;
+    SrcImage: Timage;
     PrintDialog1: TPrintDialog;
     PrinterSetupDialog: TPrinterSetupDialog;
     Progressbar1: Tprogressbar;
@@ -47,7 +51,6 @@ type
     Label1: TLabel;
     Label2: TLabel;
     Panel1: TPanel;
-    PrintButton: TToolButton;
     RadioButton1: TRadioButton;
     RadioButton2: TRadioButton;
     Rightlbl1: TLabel;
@@ -55,7 +58,6 @@ type
     ScrollBarLeft: TScrollBar;
     ScrollBarRight: TScrollBar;
     ScrollBarTop: TScrollBar;
-    PrintAllcb: TCheckBox;
     Splitter1: Tsplitter;
     StandardToolBar: TToolBar;
     TabControl1: TTabControl;
@@ -66,6 +68,7 @@ type
     Toplbl: TLabel;
     Toplbl1: TLabel;
 
+    Procedure Bitbtn2click(Sender: Tobject);
     Procedure Combobox1select(Sender: Tobject);
     Procedure Combobox2select(Sender: Tobject);
     procedure LabeledEdit1KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -110,7 +113,7 @@ type
 
     procedure CreatePages;
     procedure GetPaperData;
-    Function BuildPage(PageNum: Integer): INteger;
+    Function BuildPage(PageNum: Integer): Integer;
     procedure PrintHeader;
     procedure PrintFooter(PgNum: Integer);
     procedure PreviewGrBoxClick(Sender: TObject);
@@ -130,6 +133,7 @@ const
   //Header Line 2 is the file name
   FooterLine1 = 'Footer Line 1';
   Footerline2 = 'Footer Line 1';
+  ScrBarWidth = 25;
 
 implementation
 
@@ -142,6 +146,14 @@ begin
   GetPaperData;
   CreatePages;
 end;
+
+Procedure Tprint_previewfm.Bitbtn2click(Sender: Tobject);
+Begin   //Print current page
+  LabelEdEdit1.Text:= IntToStr(TabControl1.TabIndex + 1);
+  LabelEdEdit2.Text:= LabelEdEdit1.Text;
+  PrintButtonClick(Sender);
+  If PrintAllcb.Checked then PrintAllcbClick(Sender);                           //Reset print from page to page to setting before "print current"
+End;
 
 Procedure Tprint_previewfm.Combobox2select(Sender: Tobject);
 Begin
@@ -252,7 +264,11 @@ var
   x: Integer;
 begin
   InitRun:= true;
+
   Memo1.Clear;
+  MemoFileName:= '';
+  SrcImage.width:= 0;
+
   InCreatePages:= false;
   ScrollBarLeftChange(nil);
   ScrollBarTopChange(nil);
@@ -301,7 +317,7 @@ end;
 
 procedure TPrint_Previewfm.PrintButtonClick(Sender: TObject);
 var
-  n,
+  n, a, e,
   OldTab   : Integer;
   ProgStep : Single;
   OldBorder: Boolean;
@@ -319,7 +335,9 @@ begin
   Screen.Cursor:= crHourglass;
   Printer.BeginDoc;
   try
-    For n:= 0 to (TabControl1.Tabs.Count - 1) do
+    a:= (StrToInt(LabeledEdit1.Text) -1);
+    e:= (StrToInt(LabeledEdit2.Text) -1);
+    For n:= a to e do
     begin
       Progressbar1.Position:= Round((n + 1) * ProgStep);
       Label8.Caption:= IntToStr(n + 1);
@@ -328,7 +346,7 @@ begin
       Printer.Canvas.StretchDraw(Rect(0, 0,
                                       Printer.PageWidth,
                                       Printer.PageHeight), BM);
-      if n < (TabControl1.Tabs.Count - 1) then Printer.NewPage;
+      if n < e then Printer.NewPage;
       if Printer.Aborted then Break;
     End;
   finally
@@ -451,20 +469,50 @@ procedure TPrint_Previewfm.CreatePages;
 var
   Factor, n, OldTabIdx: Integer;
 
-const
-  ScrBarWidth = 25;
+  Procedure AdjPreviewGrBox;
+  begin
+    Factor:= Trunc((Splitter1.Left - ScrBarWidth) *
+                           (papermmY / papermmX));
+    SetLength(PreviewGrBox, Pg + 1);
+    PreviewGrBox[Pg]:= TGroupBox.Create(nil);
+    PreviewGrBox[Pg].Parent:= ScrollBox2;
+    PreviewGrBox[Pg].ParentColor:= false;
+
+    SetLength(Img, Pg + 1);
+    Img[Pg]:= TImage.Create(nil);
+    Img[Pg].Parent:= PreviewGrBox[Pg];
+    Img[Pg].Align:= alClient;
+    Img[Pg].OnClick:= @PreviewGrBoxClick;
+    Img[Pg].Tag:= Pg;
+
+    PreviewGrBox[Pg].Caption:= IntToStr(Pg + 1);
+    PreviewGrBox[Pg].ClientHeight:= Factor;
+    PreviewGrBox[Pg].ClientWidth:= Splitter1.Left - ScrBarWidth;
+    PreviewGrBox[Pg].Top:= Pg * PreviewGrBox[Pg].Height;
+    PreviewGrBox[Pg].Color:= clBtnFace;
+    PreviewGrBox[Pg].Font.Size:= 10;
+    PreviewGrBox[Pg].Font.Style:= [];
+    PreviewGrBox[Pg].Tag:= Pg;
+
+    Img[Pg].Canvas.StretchDraw(Rect(0, 0, Img[Pg].ClientWidth,
+                                    Img[Pg].ClientHeight),
+                               PageImg.Picture.Bitmap);
+    Inc(Pg);
+    TabControl1.Tabs.Add('Page ' + IntToStr(Pg));
+  End;
+
 begin
   if InCreatePages then Exit;
 
   try
     BMLeftMargin:= Round((ScrollBarLeft.Position / mmScale) *
-                         Screen.PixelsPerInch);                                 //Pixel
+                          Screen.PixelsPerInch);                                //Pixel
     BMTopMargin:= Round((ScrollBarTop.Position / mmScale) *
-                        Screen.PixelsPerInch);
+                         Screen.PixelsPerInch);
     BMRightMargin:= Round((ScrollBarRight.Position / mmScale) *
-                          Screen.PixelsPerInch);
-    BMBottomMargin:= Round((ScrollBarBottom.Position / mmScale) *
                            Screen.PixelsPerInch);
+    BMBottomMargin:= Round((ScrollBarBottom.Position / mmScale) *
+                            Screen.PixelsPerInch);
 
     if TabControl1.Tabs.Count > 0 then OldTabIdx:= TabControl1.TabIndex;        //Remember current tab
 
@@ -480,42 +528,20 @@ begin
       BM.Width:= Round((papermmX / mmscale) * Screen.PixelsPerInch);            //Pixel
       BM.Height:= Round((papermmY / mmScale) * Screen.PixelsPerInch);
 
-      While n < Memo1.Lines.Count do                                            //While not bottom of page...
-      begin
-        n:= BuildPage(Pg);
-
-        Factor:= Trunc((Splitter1.Left - ScrBarWidth) * (papermmY / papermmX));
-
-        SetLength(PreviewGrBox, Pg + 1);
-        PreviewGrBox[Pg]:= TGroupBox.Create(nil);
-        PreviewGrBox[Pg].Parent:= ScrollBox2;
-        PreviewGrBox[Pg].ParentColor:= false;
-
-        SetLength(Img, Pg + 1);
-        Img[Pg]:= TImage.Create(nil);
-        Img[Pg].Parent:= PreviewGrBox[Pg];
-        Img[Pg].Align:= alClient;
-        Img[Pg].OnClick:= @PreviewGrBoxClick;
-        Img[Pg].Tag:= Pg;
-
-        PreviewGrBox[Pg].Caption:= IntToStr(Pg + 1);
-        PreviewGrBox[Pg].ClientHeight:= Factor;
-        PreviewGrBox[Pg].ClientWidth:= Splitter1.Left - ScrBarWidth;
-        PreviewGrBox[Pg].Top:= Pg * PreviewGrBox[Pg].Height;
-        PreviewGrBox[Pg].Color:= clBtnFace;
-        PreviewGrBox[Pg].Font.Size:= 10;
-        PreviewGrBox[Pg].Font.Style:= [];
-        PreviewGrBox[Pg].Tag:= Pg;
-
-        Img[Pg].Canvas.StretchDraw(Rect(0, 0, Img[Pg].ClientWidth,
-                                        Img[Pg].ClientHeight),
-                                   PageImg.Picture.Bitmap);
-        Inc(Pg);
-        TabControl1.Tabs.Add('Page ' + IntToStr(Pg));
-
-        Setlength(PageStartLine, Pg + 1);
-        PageStartLine[length(PageStartLine) - 1]:= n;
-      end;                                                                      //remember first line number of page
+      if SrcImage.Width > 0
+        then
+        begin
+          BuildPage(Pg);
+          AdjPreviewGrBox;
+        End
+        else
+          While n < Memo1.Lines.Count do                                        //While not bottom of page...
+          begin
+            n:= BuildPage(Pg);
+            AdjPreviewGrBox;
+            Setlength(PageStartLine, Pg + 1);
+            PageStartLine[length(PageStartLine) - 1]:= n;
+          end;                                                                  //remember first line number of page
     finally
       if TabControl1.Tabs.Count > 0 then
       begin
@@ -528,7 +554,8 @@ begin
       InCreatePages:= false;
     end;
   Finally
-    PrintButton.Enabled:= (Memo1.Lines.Count > 0);
+    Bitbtn1.Enabled:= (Memo1.Lines.Count > 0) or (SrcImage.Width > 0);
+    Bitbtn2.Enabled:= Bitbtn1.Enabled;
   End;
 end;
 
@@ -537,8 +564,10 @@ var
   n, Ti, Tb   : Int64;
   i           : Integer;
   S           : String;
+  Si, S1,
   DispScaleX,
   DispScaleY  : Single;
+
 begin
   try
     BM.Canvas.Brush.Color:= clwhite;                                            //Background color
@@ -551,7 +580,7 @@ begin
     BM.Canvas.Pen.Color:= clBlack;
     BM.canvas.Font.Color:= clblack;
 
-    Ti:= BM.Width - BMLeftMargin - BMRightMargin;                               //Pixel
+    Ti:= BM.Width - BMLeftMargin - BMRightMargin;                               //Nutzbare Breite in Pixel
 
     Case ComboBox2.ItemIndex of
        0: begin                                                                 //25%
@@ -595,82 +624,145 @@ begin
        else
           begin                                                                 //Fit
             PageImg.Height:= ScrollBox1.ClientHeight;
-            PageImg.Width:= Round(PageImg.Height * (Bm.Width / BM.Height));
+            PageImg.Width:= Round(PageImg.Height * (Bm.Width / BM.Height) - ScrBarWidth);
 
             PageImg.Picture.Bitmap.Width:= PageImg.Width;
             PageImg.Picture.Bitmap.Height:= PageImg.Height;
 
             If PageImg.Width > ScrollBox1.ClientWidth
               then ScrollBox1.ClientWidth:= PageImg.Width;
+
             If PageImg.Height > ScrollBox1.ClientHeight
               then ScrollBox1.ClientHeight:= PageImg.Height;
           end;
     end;
 
-    n:= PageStartLine[PageNum];
-    i:= Memo1.Lines.Count;
+    DispScaleX:= PageImg.Width/ BM.Width;
+    DispScaleY:= PageImg.Height / BM.Height;
 
-    While n < Memo1.Lines.Count do
-    begin
-      If CheckBox_Header.Checked
-        then PrintHeader
-        else YPos:= BMTopMargin;
-
-      If CheckBox_Footer.Checked
-        then PrintFooter(PageNum)
-        else Bot:= Bm.Height - BMBottomMargin;
-
-      While (YPos - Bm.Canvas.Font.Height) < Bot do                             //Font.Height is negative
+    if SrcImage.Width > 0
+      then
       begin
-        If n >= Memo1.Lines.Count then Break;
-        S:= Memo1.Lines[n];
-        Tb:= Bm.Canvas.TextWidth(S);
+        If CheckBox_Header.Checked
+          then PrintHeader
+          else YPos:= BMTopMargin;
 
-        If Ti < Tb then                                                         //If line is longer than page width
-        begin
-          i:= Length(S);
-          Repeat
-            While (Tb > Ti) and (i > 0) do                                      //try to shorten it
-              if S[i] = ' ' then Break else Dec(i);                             //find space character startting at line end
+        If CheckBox_Footer.Checked
+          then PrintFooter(PageNum)
+          else Bot:= Bm.Height - BMBottomMargin - BMTopMargin;
 
-            if i > 0 then                                                       //space char found
+        if (SrcImage.Picture.Bitmap.Width > Ti) and
+           (SrcImage.Picture.Bitmap.Height > Bot)
+          then
             begin
-              Tb:= Bm.Canvas.TextWidth(Copy(S, 1, i));
-              If Tb > Ti
-              then                                                              //line is still too long
-                Dec(i)
+              Si:= Ti / SrcImage.Picture.Bitmap.Width;
+              S1:= Bot / SrcImage.Picture.Bitmap.Height;
+              if S1 < Si             //Height > Width
+                then
+                  BM.Canvas.StretchDraw(
+                        Rect(BMLeftMargin, YPos,
+                             BMLeftMargin + Round(SrcImage.Picture.Bitmap.Width * S1),
+                             YPos + Bot),
+                        SrcImage.Picture.Graphic)
+                else                //Width > Height
+                  BM.Canvas.StretchDraw(
+                        Rect(BMLeftMargin, YPos,
+                             BMLeftMargin + Ti,
+                             Round(SrcImage.Picture.Bitmap.Height * Si)),
+                        SrcImage.Picture.Graphic);
+            end
+          else if SrcImage.Picture.Bitmap.Width > Ti
+            then
+             begin
+               Si:= Ti / SrcImage.Picture.Bitmap.Width;
+               BM.Canvas.StretchDraw(
+                        Rect(BMLeftMargin, YPos,
+                             BMLeftMargin + Ti,
+                             YPos + Round(SrcImage.Picture.Bitmap.Height * Si)),
+                        SrcImage.Picture.Graphic);
+             End
+            else if SrcImage.Picture.Bitmap.Height > Bot
+              then
+               begin
+                 Si:= Bot / SrcImage.Picture.Bitmap.Height;
+                 BM.Canvas.StretchDraw(
+                        Rect(BMLeftMargin, YPos,
+                             BMLeftMargin +
+                             Round(SrcImage.Picture.Bitmap.Width * Si),
+                             Bot),
+                        SrcImage.Picture.Graphic);
+               End
               else
-              begin
-                Bm.Canvas.TextOut(BMLeftMargin, YPos, Copy(S, 1, i));
-                Ypos:= Ypos - Round(1.2 * Bm.Canvas.Font.Height);              //Increase the line position to next line
-                S:= Copy(S, i + 1, Length(S));                                  //cut off printed portion of string
-                if (S > '') and (S[length(S)] = ' ')
-                  then  S:= Copy(S, 1, Length(S)-1);                            //cut off trailing blank
+                 BM.Canvas.StretchDraw(
+                        Rect(BMLeftMargin, YPos,
+                             BMLeftMargin + SrcImage.Picture.Bitmap.Width,
+                             SrcImage.Picture.Bitmap.Height),
+                        SrcImage.Picture.Graphic);
+      End
+      else
+      begin
+        n:= PageStartLine[PageNum];
+        i:= Memo1.Lines.Count;
 
-                i:= Length(S);
-                Tb:= Bm.Canvas.TextWidth(S);
-              end;
-            end;
-          until i = 0;
-        end
-        else
+        While n < Memo1.Lines.Count do
         begin
-          Bm.Canvas.TextOut(BMLeftMargin, YPos, S);
-          Ypos:= Ypos - Round(1.2 * Bm.Canvas.Font.Height);                    //Increase the line position to next line
+          If CheckBox_Header.Checked
+            then PrintHeader
+            else YPos:= BMTopMargin;
+
+          If CheckBox_Footer.Checked
+            then PrintFooter(PageNum)
+            else Bot:= Bm.Height - BMBottomMargin;
+
+          While (YPos - Bm.Canvas.Font.Height) < Bot do                             //Font.Height is negative
+          begin
+            If n >= Memo1.Lines.Count then Break;
+            S:= Memo1.Lines[n];
+            Tb:= Bm.Canvas.TextWidth(S);
+
+            If Ti < Tb then                                                         //If line is longer than page width
+            begin
+              i:= Length(S);
+              Repeat
+                While (Tb > Ti) and (i > 0) do                                      //try to shorten it
+                  if S[i] = ' ' then Break else Dec(i);                             //find space character startting at line end
+
+                if i > 0 then                                                       //space char found
+                begin
+                  Tb:= Bm.Canvas.TextWidth(Copy(S, 1, i));
+                  If Tb > Ti
+                  then                                                              //line is still too long
+                    Dec(i)
+                  else
+                  begin
+                    Bm.Canvas.TextOut(BMLeftMargin, YPos, Copy(S, 1, i));
+                    Ypos:= Ypos - Round(1.2 * Bm.Canvas.Font.Height);              //Increase the line position to next line
+                    S:= Copy(S, i + 1, Length(S));                                  //cut off printed portion of string
+                    if (S > '') and (S[length(S)] = ' ')
+                      then  S:= Copy(S, 1, Length(S)-1);                            //cut off trailing blank
+
+                    i:= Length(S);
+                    Tb:= Bm.Canvas.TextWidth(S);
+                  end;
+                end;
+              until i = 0;
+            end
+            else
+            begin
+              Bm.Canvas.TextOut(BMLeftMargin, YPos, S);
+              Ypos:= Ypos - Round(1.2 * Bm.Canvas.Font.Height);                    //Increase the line position to next line
+            end;
+            Inc(n);
+          end;
+          Break;
         end;
-        Inc(n);
-      end;
-      Break;
-    end;
+      End;
   finally
     PageImg.Picture.Bitmap.Canvas.StretchDraw(
                                 Rect(0, 0, PageImg.Width, PageImg.Height), BM); //Scale BM to PageImg size
 
     if ShowPrintBordercb.checked then
     begin
-      DispScaleX:= PageImg.Width/ BM.Width;
-      DispScaleY:= PageImg.Height / BM.Height;
-
       PageImg.Canvas.Pen.Mode := pmCopy;                                        //Draw print border
       PageImg.Canvas.Pen.Color:= clRed;
       PageImg.Canvas.Pen.Style:= psDot;

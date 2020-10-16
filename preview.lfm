@@ -1,7 +1,7 @@
 object Previewfm: TPreviewfm
-  Left = 804
+  Left = 1014
   Height = 463
-  Top = 222
+  Top = 288
   Width = 887
   Caption = 'Previewfm'
   ClientHeight = 463
@@ -35,34 +35,34 @@ object Previewfm: TPreviewfm
       OnClick = PrintButtonClick
     end
     object ToolButton3: TToolButton
-      Left = 78
+      Left = 96
       Height = 22
       Top = 2
       ImageIndex = 3
       Style = tbsDivider
     end
     object CutButton: TToolButton
-      Left = 83
+      Left = 397
       Top = 2
       ImageIndex = 5
     end
     object CopyButton: TToolButton
-      Left = 106
+      Left = 420
       Top = 2
       ImageIndex = 6
     end
     object PasteButton: TToolButton
-      Left = 129
+      Left = 443
       Top = 2
       ImageIndex = 7
     end
     object UndoButton: TToolButton
-      Left = 152
+      Left = 466
       Top = 2
       ImageIndex = 4
     end
     object ToolButton2: TToolButton
-      Left = 175
+      Left = 489
       Top = 2
       Caption = 'ToolButton2'
       ImageIndex = 15
@@ -80,6 +80,53 @@ object Previewfm: TPreviewfm
       Top = 2
       ImageIndex = 3
       Style = tbsDivider
+    end
+    object RadioButton1: TRadioButton
+      Left = 101
+      Height = 19
+      Top = 2
+      Width = 91
+      Caption = 'Print (Memo)'
+      Checked = True
+      TabOrder = 2
+      TabStop = True
+    end
+    object RadioButton3: TRadioButton
+      Left = 300
+      Height = 19
+      Top = 2
+      Width = 97
+      Caption = 'Print (Graphic)'
+      TabOrder = 0
+    end
+    object RadioButton2: TRadioButton
+      Left = 210
+      Height = 19
+      Top = 2
+      Width = 74
+      Caption = 'Print (File)'
+      TabOrder = 1
+    end
+    object ToolButton1: TToolButton
+      Left = 192
+      Height = 22
+      Top = 2
+      Caption = 'ToolButton1'
+      Style = tbsSeparator
+    end
+    object ToolButton5: TToolButton
+      Left = 284
+      Height = 22
+      Top = 2
+      Caption = 'ToolButton5'
+      Style = tbsSeparator
+    end
+    object ToolButton6: TToolButton
+      Left = 78
+      Height = 22
+      Top = 2
+      Caption = 'ToolButton6'
+      Style = tbsSeparator
     end
   end
   object StatusBar: TStatusBar
