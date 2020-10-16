@@ -16,3 +16,7 @@ Version1.4:
     
 Version1.5:
     - improved orientation switching
+    
+Version1.6:
+    - improved page "print all" / "print selected"
+    
