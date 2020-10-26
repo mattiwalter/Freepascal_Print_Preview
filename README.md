@@ -20,3 +20,6 @@ Version1.5:
 Version1.6:
     - improved page "print all" / "print selected"
     
+Version1.7:
+    - improved Bitmap resizing by using Halftone
+    - added printing one graphic page. I create a one page report with text and graphics on it. Then send it to Preview.
