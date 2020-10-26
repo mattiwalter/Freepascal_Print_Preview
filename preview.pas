@@ -8,7 +8,7 @@ uses
   Windows, Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ComCtrls,
   StdCtrls, Menus, ExtCtrls, Printers, IntfGraphics,
 
-  Print_Preview, PatchImageDPI;
+  Print_Preview;
 
 type
 
@@ -25,6 +25,7 @@ type
     RadioButton3: Tradiobutton;
     RadioButton2: Tradiobutton;
     SaveButton: TToolButton;
+    Image3: Timage;
     StandardToolBar: TToolBar;
     StatusBar: TStatusBar;
     Exitbtn: TToolButton;
@@ -47,7 +48,6 @@ type
 
   private
     procedure ShowCursorPos;
-    Procedure SetBMP_DPI(fn: String; NEW_DPI_X, NEW_DPI_Y: Integer);
 
   public
 
@@ -125,97 +125,24 @@ begin
 end;
 
 procedure TPreviewfm.PrintButtonClick(Sender: TObject);
-var
-  jp: TJpegImage;
-  BM: TBitmap;
-const
-  ImgFile = 'Pic1100x1100';
-  //ImgFile = '800x1130.jpg';
 begin
   Screen.Cursor:= crHourGlass;
   try
     Print_Previewfm:= TPrint_Previewfm.Create(nil);
-    jp:= TJpegImage.Create;
-    try
-      if RadioButton1.Checked
+
+    if RadioButton1.Checked
       then Print_Previewfm.Memo1.Lines.Assign(Memo1.Lines)
       else if RadioButton2.Checked
         then Print_Previewfm.MemoFileName:= TestFileName
         else   //RadioButto3.checked
         begin
-          (*
-          // ------ Image Quality is miserable. To be improved -------
-
-          //A Delphi Bitmap has no DPI Info, use JPG instead
-          jp:= TJpegImage.Create;
-          Jp.CompressionQuality:= 100;
-          BM:= TBitmap.Create;
-          try
-            BM.LoadFromResourceName(hinstance, ImgFile);
-            jp.Assign(BM);
-          Finally
-            BM.Free;
-          End;
-          Print_Previewfm.SrcImage.Picture.Bitmap.Assign(jp);
-          Print_Previewfm.SrcImage.Width:= jp.width;
-          Print_Previewfm.SrcImage.Height:= jp.height;
-          *)
-
-          //Use this method for the time beeing
-          BM:= TBitmap.Create;
-          try
-            BM.LoadFromResourceName(hinstance, ImgFile);
-            BM.SaveToFile(ImgFile + '.bmp');
-          Finally
-            BM.Free;
-          End;
-          ShellExecute(0, 'open', PChar(ImgFile + '.bmp'), nil, nil, SW_SHOW);
+          Image3.Picture.LoadFromResourceName(hinstance, 'Pic1100x1100');
+          Print_Previewfm.SrcImage.Picture.Assign(Image3.Picture);
         End;
-
-      if RadioButton1.Checked or RadioButton2.Checked
-        then Print_Previewfm.ShowModal;
-    finally
-      jp.Free;
-    end;
+    Print_Previewfm.ShowModal;
   finally
     Screen.Cursor:= crDefault;
   End;
-end;
-
-Procedure TPreviewfm.SetBMP_DPI(fn: String; NEW_DPI_X, NEW_DPI_Y: Integer);
-var
-  imgStream: TMemoryStream;
-  ext      : String;
-  ok       : Boolean;
-begin
-  ext:= ExtractFileExt(Fn);
-  imgStream:= TMemoryStream.Create;
-  try
-    ok:= false;
-    imgStream.LoadFromFile(fn);
-    ext := Lowercase(ext);
-    if ext = '.bmp' then
-      ok := SetDPI_BMP(imgStream, NEW_DPI_X, NEW_DPI_Y)
-    else if (ext = '.tiff') or (ext = '.tif') then
-      ok := SetDPI_TIF(imgStream, NEW_DPI_X, NEW_DPI_Y)
-    else if (ext ='.jpg') or (ext='jpeg') then
-      ok := SetDPI_JPG(imgStream, NEW_DPI_X, NEW_DPI_Y)
-    else if (ext = '.png') then
-      ok := SetDPI_PNG(imgStream, NEW_DPI_X, NEW_DPI_Y)
-    else if (ext = '.pcx') then
-      ok := SetDPI_PCX(imgStream, NEW_DPI_X, NEW_DPI_Y)
-    else begin
-      ShowMessage('Image type not supported');
-      exit;
-    end;
-    if ok then
-    begin
-      imgStream.SaveToFile(fn);
-    end else
-      ShowMessage('File could not find file: ' + fn);
-  finally
-    imgStream.Free;
-  end;
 end;
 
 end.

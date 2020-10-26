@@ -21,7 +21,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="1"/>
-      <MinorVersionNr Value="6"/>
+      <MinorVersionNr Value="7"/>
       <Language Value="0407"/>
       <StringTable CompanyName="Walter Software" ProductName="Print Preview"/>
     </VersionInfo>
@@ -49,7 +49,7 @@
         <PackageName Value="LCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="4">
+    <Units Count="3">
       <Unit0>
         <Filename Value="PrintPreview.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -70,10 +70,6 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Print_Preview"/>
       </Unit2>
-      <Unit3>
-        <Filename Value="patchimagedpi.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit3>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

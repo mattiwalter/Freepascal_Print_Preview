@@ -35,34 +35,34 @@ object Previewfm: TPreviewfm
       OnClick = PrintButtonClick
     end
     object ToolButton3: TToolButton
-      Left = 96
+      Left = 86
       Height = 22
       Top = 2
       ImageIndex = 3
       Style = tbsDivider
     end
     object CutButton: TToolButton
-      Left = 397
+      Left = 369
       Top = 2
       ImageIndex = 5
     end
     object CopyButton: TToolButton
-      Left = 420
+      Left = 392
       Top = 2
       ImageIndex = 6
     end
     object PasteButton: TToolButton
-      Left = 443
+      Left = 415
       Top = 2
       ImageIndex = 7
     end
     object UndoButton: TToolButton
-      Left = 466
+      Left = 438
       Top = 2
       ImageIndex = 4
     end
     object ToolButton2: TToolButton
-      Left = 489
+      Left = 461
       Top = 2
       Caption = 'ToolButton2'
       ImageIndex = 15
@@ -82,7 +82,7 @@ object Previewfm: TPreviewfm
       Style = tbsDivider
     end
     object RadioButton1: TRadioButton
-      Left = 101
+      Left = 91
       Height = 19
       Top = 2
       Width = 91
@@ -92,7 +92,7 @@ object Previewfm: TPreviewfm
       TabStop = True
     end
     object RadioButton3: TRadioButton
-      Left = 300
+      Left = 272
       Height = 19
       Top = 2
       Width = 97
@@ -100,7 +100,7 @@ object Previewfm: TPreviewfm
       TabOrder = 0
     end
     object RadioButton2: TRadioButton
-      Left = 210
+      Left = 190
       Height = 19
       Top = 2
       Width = 74
@@ -108,14 +108,14 @@ object Previewfm: TPreviewfm
       TabOrder = 1
     end
     object ToolButton1: TToolButton
-      Left = 192
+      Left = 182
       Height = 22
       Top = 2
       Caption = 'ToolButton1'
       Style = tbsSeparator
     end
     object ToolButton5: TToolButton
-      Left = 284
+      Left = 264
       Height = 22
       Top = 2
       Caption = 'ToolButton5'
@@ -127,6 +127,17 @@ object Previewfm: TPreviewfm
       Top = 2
       Caption = 'ToolButton6'
       Style = tbsSeparator
+    end
+    object Image3: TImage
+      Left = 484
+      Height = 18
+      Top = 2
+      Width = 21
+      AutoSize = True
+      ParentShowHint = False
+      StretchOutEnabled = False
+      StretchInEnabled = False
+      Visible = False
     end
   end
   object StatusBar: TStatusBar
