@@ -1,7 +1,6 @@
 # Freepascal_Print_Preview
 
-Creates a 64-Bit project.
-Tested with Lazarus 2.0.10 on Windows 10
+This free, open source 64-Bit project is tested with Lazarus 2.0.10 on Windows 10-64
 
 Version1.2:
   Added:
